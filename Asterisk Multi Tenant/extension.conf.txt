@@ -1,0 +1,24 @@
+[general]
+static=yes
+writeprotect=no
+
+[globals]
+
+
+[incoming]
+exten => 551120201010,1,NoOp(Entrada de chamadas p/ ${EXTEN})
+same => n,Set(CHANNEL(accountcode)=1)
+same => n,Goto(ramais,100,1)
+
+exten => 551120201010,1,NoOp(Entrada de chamadas p/ ${EXTEN})
+same => n,Set(CHANNEL(accountcode)=1)
+same => n,Goto(ramais,100,1)
+
+[ramais]
+exten => _1XXX,1,NoOp(Chamada da empresa ${CHANNEL(accountcode)} do ramal ${CHANNEL(peername)})
+same => n,Dial(SIP/${CHANNEL(accountcode)}.${EXTEN},30,tT)
+same => n,Hangup()
+
+exten => _0[2-5]XXXXXXX,1,NoOp(Chamada para fixo - Empresa ${CHANNEL(accountcode)} do ramal ${CHANNEL(peername)})
+same => n,Dial(SIP/trunk${CHANNEL(accountcode)}/${EXTEN},30,tT)
+same => n,Hangup()
